@@ -1,23 +1,56 @@
 import React, { Component } from 'react'
-import { useParams } from 'react-router-dom'
-import { archiveNote, getNote, unarchiveNote } from '../utils/data'
+import { useNavigate, useParams } from 'react-router-dom'
+import { archiveNote, getNote, unarchiveNote, deleteNote } from '../utils/data'
 import { getReadableDate } from '../utils/date'
+import NotFound from './NotFound'
 
 function DetailPageWrapper () {
   const { id } = useParams()
-  return <Detail id={ id } />
+  const navigate = useNavigate();
+
+  function archiveHandler (id) {
+    archiveNote(id)
+    navigate('/notes/archived')
+  }
+
+  function unarchiveHandler (id) {
+    unarchiveNote(id)
+    navigate('/')
+  }
+
+  function deleteHandler (id) {
+    if (window.confirm("Do you really want to delete this note?")) {
+      deleteNote(id)
+      navigate('/')
+    }
+  }
+  
+  return (
+    <Detail
+      id={ id }
+      archiveHandler={archiveHandler}
+      unarchiveHandler={unarchiveHandler}
+      deleteHandler={deleteHandler}
+    />
+  )
 }
 
 class Detail extends Component {
   constructor(props) {
     super(props)
-
+    
     this.state = {
       note: getNote(props.id)
     }
+
+    this.archiveHandler = props.archiveHandler
+    this.unarchiveHandler = props.unarchiveHandler
+    this.deleteHandler = props.deleteHandler
   }
-  
+
   render() {
+    if (!this.state.note) return (<NotFound />)
+    
     return (
       <div className='detail-page-wrapper'>
         <h1>{this.state.note.title}</h1>
@@ -26,12 +59,12 @@ class Detail extends Component {
         <div className="action-wrapper">
           {
             this.state.note.archived ?  (
-              <button onClick={() => unarchiveNote(this.state.note.id)}>Unarchive</button>
+              <button onClick={() => this.unarchiveHandler(this.state.note.id)}>Unarchive</button>
             ) : (
-              <button onClick={() => archiveNote(this.state.note.id)}>Archive</button>
+              <button onClick={() => this.archiveHandler(this.state.note.id)}>Archive</button>
             )
           }
-          <button>Delete</button>
+          <button onClick={() => this.deleteHandler(this.state.note.id)} >Delete</button>
         </div>
       </div>
     )

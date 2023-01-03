@@ -10,8 +10,11 @@ function App() {
   return (
     <BrowserRouter>
       <nav>
-        <Link to='/'>Notes App</Link>
-        <Link to='/notes/archived'>Archived</Link>
+        <Link to='/' className="logo">Notes App</Link>
+        <div className="nav__right">
+          <Link to='/notes/add'>Add Note</Link>
+          <Link to='/notes/archived'>Archived</Link>
+        </div>
       </nav>
       <main>
           <Routes>
@@ -19,7 +22,7 @@ function App() {
             <Route path="/notes/add" element={<AddNote />} />
             <Route path="/notes/:id" element={<Detail />} />
             <Route path="/notes/archived" element={<Archived />} />
-            <Route path="/not-found" element={<NotFound />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
       </main>
     </BrowserRouter>

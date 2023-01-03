@@ -16,9 +16,8 @@ export class Notes extends Component {
     return (
       <>
         <h1>Active Notes</h1>
-        <div className='toolbar-wrapper'>
+        <div className='search-bar-wrapper'>
           <SearchBar />
-          <button>Add Note</button>
         </div>
         <NotesList notes={this.state.notes} />
       </>
