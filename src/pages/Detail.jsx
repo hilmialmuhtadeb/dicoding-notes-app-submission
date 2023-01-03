@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { archiveNote, getNote, unarchiveNote, deleteNote } from '../utils/data'
 import { getReadableDate } from '../utils/date'
 import NotFound from './NotFound'
+import PropTypes from 'prop-types'
 
 function DetailPageWrapper () {
   const { id } = useParams()
@@ -69,6 +70,13 @@ class Detail extends Component {
       </div>
     )
   }
+}
+
+Detail.propTypes = {
+  id: PropTypes.string.isRequired,
+  archiveHandler: PropTypes.func.isRequired,
+  unarchiveHandler: PropTypes.func.isRequired,
+  deleteHandler: PropTypes.func.isRequired
 }
 
 export default DetailPageWrapper

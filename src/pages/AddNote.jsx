@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { addNote } from '../utils/data'
+import PropTypes from 'prop-types'
 
 function AddNoteWrapper () {
   const navigate = useNavigate();
@@ -59,6 +60,10 @@ export class AddNote extends Component {
       </div>
     )
   }
+}
+
+AddNote.propsType = {
+  navigate: PropTypes.func.isRequired
 }
 
 export default AddNoteWrapper
